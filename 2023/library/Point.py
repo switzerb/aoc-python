@@ -12,31 +12,31 @@ class Point:
 
     def move_right(self, dist = 1):
         if self.facing == Direction.NORTH:
-            self.facing = Direction.WEST
+            self.facing = Direction.EAST
             self.x += dist
         elif self.facing == Direction.SOUTH:
-            self.facing = Direction.EAST
+            self.facing = Direction.WEST
             self.x -= dist
         elif self.facing == Direction.EAST:
-            self.facing = Direction.NORTH
+            self.facing = Direction.SOUTH
             self.y -= dist
         elif self.facing == Direction.WEST:
-            self.facing = Direction.SOUTH
+            self.facing = Direction.NORTH
             self.y += dist
         return self
 
     def move_left(self, dist = 1):
         if self.facing == Direction.NORTH:
-            self.facing = Direction.EAST
+            self.facing = Direction.WEST
             self.x -= dist
         elif self.facing == Direction.SOUTH:
-            self.facing = Direction.WEST
+            self.facing = Direction.EAST
             self.x += dist
         elif self.facing == Direction.EAST:
-            self.facing = Direction.SOUTH
+            self.facing = Direction.NORTH
             self.y += dist
         elif self.facing == Direction.WEST:
-            self.facing = Direction.NORTH
+            self.facing = Direction.SOUTH
             self.y -= dist
         return self
 
