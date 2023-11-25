@@ -20,5 +20,9 @@ class DayOne(unittest.TestCase):
     def test_p2_1(self):
         self.assertEqual(4, day01.part_two(day01.parse("R8, R4, R4, R8")))
 
+    def test_p2_actual(self):
+        file = open("input.txt")
+        self.assertEqual(150, day01.part_two(day01.parse(file.read())))
+
 if __name__ == '__main__':
     unittest.main()

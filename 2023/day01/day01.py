@@ -39,5 +39,5 @@ def part_two(puzzle):
 
 file = open("input.txt")
 puzzle = parse(file.read())
-# print("part one: ", part_one(puzzle))
+print("part one: ", part_one(puzzle))
 print("part two: ", part_two(puzzle))
