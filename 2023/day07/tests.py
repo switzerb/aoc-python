@@ -27,11 +27,11 @@ class DaySeven(unittest.TestCase):
     def test_p1_actual(self):
         file = open("input.txt")
         data = file.read().splitlines()
-        self.assertEqual(118, day07.part_one(day07.parse(data)))
+        self.assertEqual(118, day07.part_one(data))
         file.close()
 
     def test_p2_1(self):
-        self.assertEqual("bab", day07.contains_aba("aba"))
+        self.assertEqual(['bab'], day07.contains_aba("aba"))
 
     def test_p2_2(self):
         self.assertEqual(True, day07.supports_ssl("aba[bab]xyz"))

@@ -7,12 +7,8 @@ import regex
 SCRIPT_DIR = path.dirname(__file__)
 INPUT_FILE = "input.txt"
 
-
-def parse(data):
-    return data
-
-
 abba_match = regex.compile(r"(.)(.)\2\1")
+aba_match = regex.compile(r"(\w)(\w)\1")
 ip_match = regex.compile(r"(\w+)(?:\[\w*])*")
 hypernet_match = regex.compile(r"\[(\w+)\]+")
 
@@ -23,15 +19,12 @@ def contains_aba(seq: str) -> list[str]:
     Returns the three letter string to be able to check BAB, the reverse
     If no matches, returns empty string
     """
-    babs = []
-    aba_match = regex.compile(r"(\w)(\w)\1")
     matches = aba_match.findall(seq, overlapped=True)
     if len(matches) == 0: return []
     for idx in range(len(matches)):
         a, b = matches[idx]
         if a == b: continue
-        babs.append(b + a + b)
-    return babs
+        yield b + a + b
 
 
 def contains_abba(seq: str) -> bool:
@@ -40,12 +33,13 @@ def contains_abba(seq: str) -> bool:
     four-character sequence which consists of a pair of two different characters
     followed by the reverse of that pair, such as xyyx or abba.
     e.g. abba is valid. poop is valid. abab is not. """
-
     matches = abba_match.findall(seq)
-    if len(matches) == 0: return False
+    if len(matches) == 0:
+        return False
 
     a, b = matches[0]
-    if a == b: return False
+    if a == b:
+        return False
     return True
 
 
@@ -68,7 +62,6 @@ def supports_ssl(ip: str) -> bool:
     for s in supers:
         babs = contains_aba(s)
         for bab in babs:
-            if len(bab) == 0: continue
             for h in hypers:
                 if bab in h:
                     return True
@@ -93,8 +86,7 @@ def part_two(ips: list[str]) -> int:
 def main():
     filename = path.join(SCRIPT_DIR, INPUT_FILE)
     with open(filename, mode="rt") as f:
-        data = f.read().splitlines()
-    ips = parse(data)
+        ips = f.read().splitlines()
     print("part one: ", part_one(ips))
     print("part two: ", part_two(ips))
 
@@ -104,5 +96,3 @@ if __name__ == "__main__":
     main()
     t2 = time.perf_counter()
     print(f"Execution time: {t2 - t1:0.4f} seconds")
-
-# wrong part two : 254, too low
