@@ -16,7 +16,7 @@ class Point:
         elif turn_to == "L":
             return self.turn_left()
 
-    def move(self, move_to, dist = 1):
+    def move(self, move_to, dist=1):
         if move_to == "R":
             return self.move_right(dist)
         elif move_to == "L":
@@ -44,7 +44,7 @@ class Point:
             self.facing = Direction.SOUTH
         return self
 
-    def move_right(self, dist = 1):
+    def move_right(self, dist=1):
         if self.facing == Direction.NORTH:
             self.y -= dist
         elif self.facing == Direction.SOUTH:
@@ -55,7 +55,7 @@ class Point:
             self.x -= dist
         return self
 
-    def move_left(self, dist = 1):
+    def move_left(self, dist=1):
         if self.facing == Direction.NORTH:
             self.y -= dist
         elif self.facing == Direction.SOUTH:
@@ -68,9 +68,10 @@ class Point:
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
+
     def __ne__(self, other):
         return not self.__eq__(other)
 
-# manhattan distance = abs(x1 - x2) + abs(y1 - y2)
+    # manhattan distance = abs(x1 - x2) + abs(y1 - y2)
     def manhattan_distance(self, other):
         return abs(self.x - other.x) + abs(self.y - other.y)
