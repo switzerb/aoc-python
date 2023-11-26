@@ -2,7 +2,7 @@
 # --- Day 7: Internet Protocol Version 7 ---
 import time
 from os import path
-import re
+import regex
 
 SCRIPT_DIR = path.dirname(__file__)
 INPUT_FILE = "input.txt"
@@ -12,9 +12,26 @@ def parse(data):
     return data
 
 
-abba_match = re.compile(r"(.)(.)\2\1")
-ip_match = re.compile(r"(\w+)(?:\[\w*])*")
-hypernet_match = re.compile(r"\[(\w+)\]+")
+abba_match = regex.compile(r"(.)(.)\2\1")
+ip_match = regex.compile(r"(\w+)(?:\[\w*])*")
+hypernet_match = regex.compile(r"\[(\w+)\]+")
+
+
+def contains_aba(seq: str) -> list[str]:
+    """An ABA is any three-character sequence which consists of the same character
+    twice with a different character between them, such as xyx or aba.
+    Returns the three letter string to be able to check BAB, the reverse
+    If no matches, returns empty string
+    """
+    babs = []
+    aba_match = regex.compile(r"(\w)(\w)\1")
+    matches = aba_match.findall(seq, overlapped=True)
+    if len(matches) == 0: return []
+    for idx in range(len(matches)):
+        a, b = matches[idx]
+        if a == b: continue
+        babs.append(b + a + b)
+    return babs
 
 
 def contains_abba(seq: str) -> bool:
@@ -33,15 +50,28 @@ def contains_abba(seq: str) -> bool:
 
 
 def supports_tls(ip: str) -> bool:
-    hypernets = hypernet_match.findall(ip)
-    ips = ip_match.findall(ip)
+    hypers = hypernet_match.findall(ip)
+    supers = ip_match.findall(ip)
     # check the square brackets first, if there are any return false
-    for h in hypernets:
+    for h in hypers:
         if contains_abba(h):
             return False
-    for address in ips:
-        if contains_abba(address):
+    for s in supers:
+        if contains_abba(s):
             return True
+    return False
+
+
+def supports_ssl(ip: str) -> bool:
+    hypers = hypernet_match.findall(ip)
+    supers = ip_match.findall(ip)
+    for s in supers:
+        babs = contains_aba(s)
+        for bab in babs:
+            if len(bab) == 0: continue
+            for h in hypers:
+                if bab in h:
+                    return True
     return False
 
 
@@ -53,12 +83,20 @@ def part_one(ips: list[str]) -> int:
     return count
 
 
+def part_two(ips: list[str]) -> int:
+    count = 0
+    for ip in ips:
+        if supports_ssl(ip): count += 1
+    return count
+
+
 def main():
-    file = path.join(SCRIPT_DIR, INPUT_FILE)
-    with open(file, mode="rt") as f:
+    filename = path.join(SCRIPT_DIR, INPUT_FILE)
+    with open(filename, mode="rt") as f:
         data = f.read().splitlines()
     ips = parse(data)
     print("part one: ", part_one(ips))
+    print("part two: ", part_two(ips))
 
 
 if __name__ == "__main__":
@@ -66,3 +104,5 @@ if __name__ == "__main__":
     main()
     t2 = time.perf_counter()
     print(f"Execution time: {t2 - t1:0.4f} seconds")
+
+# wrong part two : 254, too low
