@@ -2,6 +2,7 @@
 --- Day 8: Two-Factor Authentication ---
 https://adventofcode.com/2016/day/8
 """
+from copy import copy
 from typing import List
 
 Screen = List[List[bool]]
@@ -45,6 +46,8 @@ def column(screen, idx):
 
 def rotate_col(col: int, by: int, screen: Screen) -> Screen:
     h = len(screen)
+    if h == 0:
+        raise Exception("screen doesn't have any pixels")
     col_values = column(screen, col)
 
     for row in range(h):
@@ -53,6 +56,15 @@ def rotate_col(col: int, by: int, screen: Screen) -> Screen:
 
 
 def rotate_row(row: int, by: int, screen: Screen) -> Screen:
+    if len(screen) == 0:
+        raise Exception("screen doesn't have any pixels")
+    w = len(screen[0])
+    if w == 0:
+        raise Exception("screen doesn't have any pixels")
+    row_values = copy(screen[row])
+
+    for col in range(w):
+        screen[row][(col + by) % w] = row_values[col]
     return screen
 
 

@@ -43,11 +43,17 @@ class Test(TestCase):
 
     def test_p1_5(self):
         start = day08.build_screen(7, 3)
+        print(day08.screen_print(start))
+
         step_1 = day08.rect(3, 2, start)
-        step_2 = day08.rotate_col(1, 1, step_1)
-        result = day08.rotate_row(0, 4, step_2)
+        print(day08.screen_print(step_1))
+
+        step_2 = day08.rotate_col(1, 2, step_1)
+        print(day08.screen_print(step_2))
+
+        result = day08.rotate_row(0, 1, step_2)
         self.assertEqual(dedent("""\
-        ....#.#
-        ###....
+        .###...
+        #.#....
         .#.....
         """), day08.screen_print(result))
