@@ -45,13 +45,10 @@ def column(screen, idx):
 
 def rotate_col(col: int, by: int, screen: Screen) -> Screen:
     h = len(screen)
-    cols = column(screen, col)
+    col_values = column(screen, col)
 
-    for i in range(h):
-        if i == (h - 1):
-            screen[0][col] = cols[h - 1]
-        else:
-            screen[i + by][col] = cols[i]
+    for row in range(h):
+        screen[(row + by) % h][col] = col_values[row]
     return screen
 
 
