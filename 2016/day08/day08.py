@@ -80,6 +80,7 @@ def rotate_row(row: int, by: int, screen: Screen) -> Screen:
 
     for col in range(w):
         screen[row][(col + by) % w] = row_values[col]
+    # screen[row] = [screen[row][(col + by) % w] for col in range(w)]
     return screen
 
 
