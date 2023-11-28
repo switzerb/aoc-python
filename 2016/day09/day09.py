@@ -3,7 +3,7 @@
 import time
 import regex
 
-marker_match = regex.compile(r"\(\d+x\d+\)")
+marker_match = regex.compile(r"\((\d+)x(\d+)\)")
 
 
 def part_one(input: str) -> int:
@@ -13,7 +13,8 @@ def part_one(input: str) -> int:
     while True:
         marker = regex.search(marker_match, input, 0, pos)
         if marker:
-            count, times = marker.group()[1:-1].split("x")
+            count = marker.group(1)
+            times = marker.group(2)
             decompression_len += (marker.start() - pos)
             decompression_len += int(count) * int(times)
             pos += (marker.end() + int(count) - pos)
@@ -26,8 +27,25 @@ def part_one(input: str) -> int:
     return decompression_len
 
 
-def part_two():
-    return 0
+def part_two(input: str) -> int:
+    input_end = len(input)
+    decompression_len = 0
+    pos = 0
+    while True:
+        marker = regex.search(marker_match, input, 0, pos)
+        if marker:
+            count = marker.group(1)
+            times = marker.group(2)
+            decompression_len += (marker.start() - pos)
+            decompression_len += int(count) * int(times)
+            pos += (marker.end() + int(count) - pos)
+        else:
+            remainder = input_end - pos
+            decompression_len += remainder
+            pos += remainder
+        if pos >= input_end:
+            break
+    return decompression_len
 
 
 def main():

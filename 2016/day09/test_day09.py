@@ -25,3 +25,6 @@ class Test(TestCase):
         filename = open("input.txt")
         self.assertEqual(98135, day09.part_one(filename.read()))
         filename.close()
+
+    def test_p2_1(self):
+        self.assertEqual(9, day09.part_two("X(8x2)(3x3)ABCY"))
