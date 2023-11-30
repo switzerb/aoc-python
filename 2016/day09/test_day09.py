@@ -27,4 +27,17 @@ class Test(TestCase):
         filename.close()
 
     def test_p2_1(self):
-        self.assertEqual(9, day09.part_two("X(8x2)(3x3)ABCY"))
+        """No markers"""
+        self.assertEqual(3, day09.part_two("XYZ"))
+
+    def test_p2_2(self):
+        """One marker"""
+        self.assertEqual(9, day09.part_two("(3x3)XYZ"))
+
+    def test_p2_3(self):
+        """Two markers that overlap"""
+        self.assertEqual(20, day09.part_two("X(8x2)(3x3)ABCY"))
+
+    def test_p2_4(self):
+        """Many markers that overlap"""
+        self.assertEqual(241920, day09.part_two("(27x12)(20x12)(13x14)(7x10)(1x12)A"))

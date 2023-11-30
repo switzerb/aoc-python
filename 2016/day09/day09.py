@@ -37,7 +37,8 @@ def part_two(input: str) -> int:
             count = marker.group(1)
             times = marker.group(2)
             decompression_len += (marker.start() - pos)
-            decompression_len += int(count) * int(times)
+            moar = input[marker.end():marker.end() + int(count)]
+            decompression_len += part_two(moar) * int(times)
             pos += (marker.end() + int(count) - pos)
         else:
             remainder = input_end - pos
@@ -50,7 +51,9 @@ def part_two(input: str) -> int:
 
 def main():
     filename = open("input.txt")
-    print(part_one(filename.read()))
+    data = filename.read()
+    print(part_one(data))
+    print(part_two(data))
 
 
 if __name__ == '__main__':
