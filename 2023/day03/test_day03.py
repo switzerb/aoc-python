@@ -4,10 +4,20 @@ import day03
 
 class Test(TestCase):
 
-    # blue, red, green
     def test_part_one(self):
-        data = ""
-        self.assertEqual(0, day03.part_one(data))
+        schematic = """
+467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
+"""
+        self.assertEqual(4361, day03.part_one(schematic))
 
     def test_part_two(self):
         data = ""

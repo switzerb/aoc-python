@@ -1,9 +1,9 @@
-# --- Day 3: Gear Ratios ---
+# --- Day 2: Cube Conundrum ---
 # https://adventofcode.com/2023/day/3
 import time
 
 
-def part_one(schematic):
+def part_one(data):
     return 0
 
 
