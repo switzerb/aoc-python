@@ -1,7 +1,6 @@
 # --- Day 4: Scratchcards ---
 # https://adventofcode.com/2023/day/4
 import time
-from input import bullshit
 
 
 def intersection(l1, l2):
@@ -16,16 +15,20 @@ def get_points(n):
     return total
 
 
-def part_one(cards):
-    points = []
-    for card in cards:
-        common = intersection(card[0], card[1])
-        if len(common):
-            pts = get_points(len(common))
-            points.append(pts)
-        else:
-            continue
-    return sum(points)
+def part_one():
+    data = list(open('input.txt'))
+
+    p1 = [0.5] * len(data)
+    p2 = [1.0] * len(data)
+
+    for i, line in enumerate(data):
+        w, h = map(str.split, line.split('|'))
+
+        for j in range(len(set(w) & set(h))):
+            p1[i] *= 2
+            p2[i + j + 1] += p2[i]
+
+    for p in p1, p2: print(sum(map(int, p)))
 
 
 def part_two(cards):
@@ -47,7 +50,7 @@ def part_two(cards):
 
 
 def main():
-    print(part_one(bullshit))
+    print(part_one())
     # print(part_two(bullshit))
 
 
