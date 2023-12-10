@@ -30,6 +30,23 @@ class Test(TestCase):
         )
         self.assertEqual(6, day08.part_one(data))
 
-    def test_part_two(self):
-        data = ""
-        self.assertEqual(0, day08.part_two(data))
+    def test_p2_1(self):
+        data = (
+            "LR",
+            {
+                "11A": ("11B", "XXX"),
+                "11B": ("XXX", "11Z"),
+                "11Z": ("11B", "XXX"),
+                "22A": ("22B", "XXX"),
+                "22B": ("22C", "22C"),
+                "22C": ("22Z", "22Z"),
+                "22Z": ("22B", "22B"),
+                "XXX": ("XXX", "XXX")
+            }
+        )
+        self.assertEqual(6, day08.part_two(data))
+
+    def test_p2_2(self):
+        self.assertEqual(False, day08.is_end("AAB"))
+        self.assertEqual(True, day08.is_end("AAZ"))
+        self.assertEqual(False, day08.is_end("11Z"))
