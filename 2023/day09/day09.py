@@ -7,7 +7,8 @@ def parse(data):
     readings = []
     for line in data:
         split = line.split(" ")
-        readings.append([int(x) for x in split])
+        ints = [int(x) for x in split]
+        readings.append(list(reversed(ints)))
     return readings
 
 
@@ -39,6 +40,9 @@ def main():
     print(part_one(parse(data)))
     # print(part_two(data))
 
+
+# 1887980197
+# 990
 
 if __name__ == '__main__':
     t1 = time.perf_counter()
