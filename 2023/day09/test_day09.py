@@ -19,7 +19,7 @@ class Test(TestCase):
             "1 3 6 10 15 21",
             "10 13 16 21 30 45"
         ]
-        self.assertEqual(0, day09.part_one(data))
+        self.assertEqual(114, day09.part_one(day09.parse(data)))
 
     def test_part_two(self):
         data = ""

@@ -7,7 +7,8 @@ def parse(data):
     readings = []
     for line in data:
         split = line.split(" ")
-    return [int(x) for x in readings]
+        readings.append([int(x) for x in split])
+    return readings
 
 
 def find_next(sequence):
@@ -20,8 +21,12 @@ def find_next(sequence):
     return find_next(deltas) + sequence[-1]
 
 
-def part_one(data):
-    return 0
+def part_one(readings):
+    nexts = []
+    for test in readings:
+        n = find_next(test)
+        nexts.append(n)
+    return sum(nexts)
 
 
 def part_two(data):
@@ -31,8 +36,8 @@ def part_two(data):
 def main():
     filename = open("input.txt")
     data = filename.read().splitlines()
-    print(part_one(data))
-    print(part_two(data))
+    print(part_one(parse(data)))
+    # print(part_two(data))
 
 
 if __name__ == '__main__':
