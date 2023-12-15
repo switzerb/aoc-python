@@ -14,14 +14,14 @@ class Test(TestCase):
         self.assertEqual(4, day10.part_one(day10.parse(data, "F")))
 
     def test_p1_2(self):
-        data = """
--L|F7
-7S-7|
-L|7||
--L-J|
-L|-JF
-        """
-        self.assertEqual(0, day10.part_one(data))
+        data = [
+            "-L|F7",
+            "7S-7|",
+            "L|7||",
+            "-L-J|",
+            "L|-JF",
+        ]
+        self.assertEqual(4, day10.part_one(day10.parse(data, "F")))
 
     def test_part_two(self):
         data = ""
