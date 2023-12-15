@@ -23,6 +23,16 @@ class Test(TestCase):
         ]
         self.assertEqual(4, day10.part_one(day10.parse(data, "F")))
 
-    def test_part_two(self):
-        data = ""
-        self.assertEqual(0, day10.part_two(data))
+    def test_p2_1(self):
+        data = [
+            "..........",
+            ".S------7.",
+            ".|F----7|.",
+            ".||OOOO||.",
+            ".||OOOO||.",
+            ".|L-7F-J|.",
+            ".|II||II|.",
+            ".L--JL--J.",
+            "..........",
+        ]
+        self.assertEqual(4, day10.part_two(data))
