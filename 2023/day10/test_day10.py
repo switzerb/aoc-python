@@ -11,7 +11,7 @@ class Test(TestCase):
             ".L-J.",
             ".....",
         ]
-        self.assertEqual(4, day10.part_one(day10.parse(data)))
+        self.assertEqual(4, day10.part_one(day10.parse(data, "F")))
 
     def test_p1_2(self):
         data = """

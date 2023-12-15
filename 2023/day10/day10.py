@@ -12,48 +12,47 @@ import time
 # S is the starting position of the animal; there is a pipe on this tile, but your sketch doesn't show what shape the pipe has.
 
 # (x, y)
-directions = {"N": (0, -1), "S": (0, 1), "E": (-1, 0), "W": (1, 0)}
-pipe_dirs = {"|": "NS", "-": "EW", "L": "NE", "J": "NW", "7": "SW", "F": "SE", ".": "", "S": ""}
+directions = {"N": (0, -1), "S": (0, 1), "E": (1, 0), "W": (-1, 0)}
+pipe_dirs = {"|": "NS", "-": "EW", "L": "NE", "J": "NW", "7": "SW", "F": "SE"}
 
 
-def parse(data):
+def parse(data, entry_char):
     map = {}
     width = 0
     height = 0
+    entry_pt = (0, 0)
     for y, line in enumerate(data):
         for x, c in enumerate(line):
+            if c == "S":
+                entry_pt = (x, y)
             map[(x, y)] = c
             width = x
         height = y
-    return map, width + 1, height + 1
+    return map, width + 1, height + 1, entry_pt, entry_char
 
 
 def part_one(pipe_map):
-    pipes, width, height = pipe_map
+    pipes, width, height, entry, entry_char = pipe_map
     tube = list()
+    tube.append(entry)
 
-    def neighbors(curr):
-        n = []
-        for d in directions.values():
-            n.append((curr[0] + d[0], curr[1] + d[1]))
-        return n
+    def move(p, d):
+        return p[0] + directions[d][0], p[1] + directions[d][1]
 
-    start = [i for i in pipes if pipes[i] == "S"][0]
-    pipes[start] = "F"  ## the actual starting pipe
-    curr = start
-    prev = (-1, -1)
+    curr = entry
+    prev = curr
     steps = 0
     while True:
-        row, col = curr
         pipe = pipes[curr]
-        d1, d2 = pipe_dirs[pipe][0], pipe_dirs[pipe][1]
-        row_1, col_1 = row + directions[d1][0], col + directions[d1][1]
-        row_2, col_2 = row + directions[d2][0], col + directions[d2][1]
-        tube.append((row, col))
-        (row, col) = (row_2, col_2) if prev == (row_1, col_1) else (row_1, col_1)
+        if pipe == "S":
+            pipe = entry_char
+        opt1 = move(curr, pipe_dirs[pipe][0])
+        opt2 = move(curr, pipe_dirs[pipe][1])
+        curr = opt2 if prev == opt1 else opt1
         prev = tube[-1]
+        tube.append(curr)
         steps += 1
-        if (row, col) == start:
+        if curr == entry:
             break
     return steps // 2
 
@@ -65,7 +64,7 @@ def part_two(data):
 def main():
     filename = open("input.txt")
     data = filename.read().splitlines()
-    print(part_one(parse(data)))
+    print(part_one(parse(data, "-")))
     # print(part_two(data))
 
 
