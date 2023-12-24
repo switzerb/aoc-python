@@ -12,8 +12,6 @@ import time
 # . is ground; there is no pipe in this tile.
 # S is the starting position of the animal; there is a pipe on this tile, but your sketch doesn't show what shape the pipe has.
 
-# (x, y)
-
 
 class Solution:
     pipe_map = {}
@@ -40,6 +38,8 @@ class Solution:
             height = y
         return map, width + 1, height + 1, entry_pt
 
+    parse = staticmethod(parse)
+
     def part_one(self):
         self.tube.append(self.entry_pt)
 
@@ -63,17 +63,44 @@ class Solution:
                 break
         return steps // 2
 
-    def part_two(data):
-        return 0
+    def on_loop(self, curr):
+        return True if curr in self.tube else False
 
-    parse = staticmethod(parse)
+    def is_crossover(self, curr):
+        pipe = self.pipe_map[curr]
+        if pipe == "S":
+            pipe = self.entry_char
+        n = self.pipe_map[(curr[0] + 1, curr[1])]
+        match pipe:
+            case "|":
+                return True
+            case "L":
+                return True if n == "7" else False
+            case "F":
+                return True if n == "J" else False
+            case _:
+                return False
+
+    def part_two(self):
+        self.part_one()  # we need to build the tube
+        inside = False  # start outside
+        tiles = 0
+
+        for y in range(-1, self.height):
+            for x in range(-1, self.width):
+                if (x, y) in self.tube:
+                    if inside:
+                        tiles += 1
+                    if self.is_crossover((x, y)):
+                        inside = not inside
+        return tiles
 
 
 def main():
     filename = open("input.txt")
     puzzle = Solution(filename.read().splitlines(), "-")
     print(puzzle.part_one())
-    # print(part_two(data))
+    print(puzzle.part_two())
 
 
 if __name__ == '__main__':

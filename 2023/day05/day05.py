@@ -26,7 +26,7 @@ def convert(info, target):
         source = range(each[1], each[1] + each[2])
         destination = range(each[0], each[0] + each[2])
         if target in source:
-            # lookup is taking too long!
+            # lookup is taking too long! need to trim the amount of work getting done
             lookup = {a: b for a, b in zip(source, destination)}
             return lookup[target]
     return target

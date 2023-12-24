@@ -11,7 +11,8 @@ class Test(TestCase):
             ".L-J.",
             ".....",
         ]
-        self.assertEqual(4, day10.part_one(day10.parse(data, "F")))
+        puzzle = day10.Solution(data, "F")
+        self.assertEqual(4, puzzle.part_one())
 
     def test_p1_2(self):
         data = [
@@ -21,7 +22,8 @@ class Test(TestCase):
             "-L-J|",
             "L|-JF",
         ]
-        self.assertEqual(4, day10.part_one(day10.parse(data, "F")))
+        puzzle = day10.Solution(data, "F")
+        self.assertEqual(4, puzzle.part_one())
 
     def test_p2_1(self):
         data = [
@@ -35,4 +37,5 @@ class Test(TestCase):
             ".L--JL--J.",
             "..........",
         ]
-        self.assertEqual(4, day10.part_two(data))
+        puzzle = day10.Solution(data, "F")
+        self.assertEqual(4, puzzle.part_two())
