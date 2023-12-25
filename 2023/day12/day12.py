@@ -1,10 +1,25 @@
-# --- Day:  ---
+# --- Day 12: Hot Springs ---
 # https://adventofcode.com/2023/day/12
+
 import time
+from functools import cache
 
 
-def part_one(data):
-    return 0
+# dynamic programming function parameters are your key so you don't run the function you can just look it up
+
+@cache
+def part_one(conditions, groups, res=0) -> int:
+    if len(groups) == 0:
+        return '#' not in conditions
+    curr, groups = groups[0], groups[1:]
+    remaining = sum(groups)
+    for idx in range(len(conditions) - remaining - curr + 1):
+        if "#" in conditions[:idx]:
+            break
+        nxt = idx + curr
+        if nxt <= len(conditions) and '.' not in conditions[idx:nxt] and conditions[nxt:nxt + 1] != '#':
+            res += part_one(conditions[nxt + 1:], groups)
+    return res
 
 
 def part_two(data):
@@ -14,8 +29,14 @@ def part_two(data):
 def main():
     filename = open("input.txt")
     data = filename.read().splitlines()
-    print(part_one(data))
-    print(part_two(data))
+    sums = []
+    for each in data:
+        conditions, groups_raw = each.split(" ")
+        groups = tuple([int(x) for x in groups_raw.split(",")])
+        something = part_one(conditions.strip(), groups)
+        sums.append(something)
+    print(sum(sums))
+    # print(part_two(data))
 
 
 if __name__ == '__main__':
