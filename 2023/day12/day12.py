@@ -8,11 +8,12 @@ from functools import cache
 # dynamic programming function parameters are your key so you don't run the function you can just look it up
 
 @cache
-def part_one(conditions, groups, res=0) -> int:
+def part_one(conditions, groups) -> int:
     if len(groups) == 0:
         return '#' not in conditions
     curr, groups = groups[0], groups[1:]
     remaining = sum(groups)
+    res = 0
     for idx in range(len(conditions) - remaining - curr + 1):
         if "#" in conditions[:idx]:
             break
