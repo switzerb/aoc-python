@@ -3,41 +3,44 @@
 import time
 
 
-def part_one(data):
-    def distance(l: str, r: str) -> int:
+def solution(data, smudge=0):
+    def dist(l: str, r: str) -> int:
         return sum(a != b for a, b in zip(l, r))
 
-    def reflection(block: list[str]) -> int:
+    def reflection(block) -> int:
         for idx in range(len(block)):
             if idx == 0:  # no reflection on first row
                 continue
-            if all(l == r for l, r in zip(reversed(block[:idx]), block[idx:])):
+            search = zip(reversed(block[:idx]), block[idx:])
+            distances = [dist(l, r) for l, r in search]
+            if sum(distances) == smudge:
                 return idx
         return 0
 
-    def score(block: str) -> int:
+    def counter(block):
         rows = block.split("\n")
-        if row := reflection(rows):
-            return 100 * row
+        rows = [each.strip() for each in rows]
+        row = reflection(rows)
+        col = reflection(list(zip(*rows)))
+        if row: return 100 * row
+        if col: return col
 
-        # we can just reverse the rows to cols with this one weird trick!
-        if col := reflection(list(zip(*rows))):
-            return col
+    return sum(counter(block) for block in data)
 
-        raise ValueError("no reflection found!")
 
-    return sum(score(block) for block in data)
+def part_one(data):
+    return solution(data, 0)
 
 
 def part_two(data):
-    return 0
+    return solution(data, 1)
 
 
 def main():
     filename = open("input.txt")
     data = filename.read().split("\n\n")
-    print(part_one(data))
-    # print(part_two(data))
+    print(part_one(data))  # 27202
+    print(part_two(data))  # 41566
 
 
 if __name__ == '__main__':
