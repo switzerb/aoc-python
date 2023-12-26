@@ -3,51 +3,30 @@
 import time
 
 
-def part_one(rows):
-    # count of columns to the left of any reflection
-    def vertical(block: list[str]) -> int:
-        width = len(block[0])
-        if width < 2:
-            return 0
-        for idx in range(width - 1):
-            col = [row[idx] for row in block]
-            nxt = [row[idx + 1] for row in block]
-            if col == nxt:
-                flag = True
-                left = idx
-                right = idx + 1
-                while right < width:
-                    col = [row[left] for row in block]
-                    nxt = [row[right] for row in block]
-                    if col == nxt:
-                        left -= 1
-                        right += 1
-                    else:
-                        return 0
-                if flag:
-                    return width - idx
+def part_one(data):
+    def distance(l: str, r: str) -> int:
+        return sum(a != b for a, b in zip(l, r))
+
+    def reflection(block: list[str]) -> int:
+        for idx in range(len(block)):
+            if idx == 0:  # no reflection on first row
+                continue
+            if all(l == r for l, r in zip(reversed(block[:idx]), block[idx:])):
+                return idx
         return 0
 
-    # return index of horizontal reflection
-    def horizontal(block):
-        height = len(block)
-        if height < 2:
-            return 0
-        for idx in range(height - 1):
-            row = block[idx]
-            nxt = block[idx + 1]
-            if row == nxt:
-                return height - idx
-        return 0
+    def score(block: str) -> int:
+        rows = block.split("\n")
+        if row := reflection(rows):
+            return 100 * row
 
-    v, h = [], []
-    for block in rows:
-        n = vertical(block)
-        if n != 0:
-            v += [n]
-        else:
-            h += [horizontal(block)]
-    return sum(v) + (sum(h) * 100)
+        # we can just reverse the rows to cols with this one weird trick!
+        if col := reflection(list(zip(*rows))):
+            return col
+
+        raise ValueError("no reflection found!")
+
+    return sum(score(block) for block in data)
 
 
 def part_two(data):
@@ -56,9 +35,9 @@ def part_two(data):
 
 def main():
     filename = open("input.txt")
-    data = filename.read().splitlines()
+    data = filename.read().split("\n\n")
     print(part_one(data))
-    print(part_two(data))
+    # print(part_two(data))
 
 
 if __name__ == '__main__':
