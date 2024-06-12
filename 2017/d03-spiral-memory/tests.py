@@ -37,3 +37,9 @@ class Test(TestCase):
         self.assertEqual(Point(2, 1), solution.get_offset(12))
         self.assertEqual(Point(2, 0), solution.get_offset(11))
         self.assertEqual(Point(2, -1), solution.get_offset(10))
+
+    def test_solution(self):
+        self.assertEqual(0, solution.part_one(1))
+        self.assertEqual(3, solution.part_one(12))
+        self.assertEqual(2, solution.part_one(23))
+        self.assertEqual(31, solution.part_one(1024))

@@ -46,7 +46,9 @@ def get_offset(n: int) -> Point:
 
 
 def part_one(input: int):
-    offset = get_offset(input)
-    print(offset)
-    pt = Point(0, 0)
-    return pt.manhattan_distance(PORT)
+    location = get_offset(input)
+    print(location)
+    return location.manhattan_distance(PORT)
+
+
+print(part_one(361527))
